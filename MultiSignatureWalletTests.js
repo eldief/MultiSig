@@ -12,8 +12,7 @@ contract('MultiSignature', (accounts) => {
 	let multiSignature;
 	
 	// execute before tests
-	beforeEach(async () => {
-		
+	beforeEach(async () => {		
 		// deploy the contract 
 		multiSignature = await MultiSignatureWallet.new(
 			// constructor args
@@ -22,8 +21,7 @@ contract('MultiSignature', (accounts) => {
 		);		
 	});
 	
-	it('Testing for constructor and getters', async () => {		// declare a test: it('description', async(args) => {});
-		
+	it('Testing for constructor and getters', async () => {		// declare a test: it('description', async(args) => {});		
 		// function getMinSignatures() external view approversOnly() returns(uint)
 		const minSignatures = await multiSignature.getMinSignatures();
 		assert(minSignatures.toNumber() === 2, `Invalid minSignature number: ${minSignatures.toNumber()}. Expecting 2.`);
@@ -57,8 +55,7 @@ contract('MultiSignature', (accounts) => {
 		assert(transactions.length === 0, `Invalid transactions number: ${transactions.length}. Expecting 0.`);
 	});
 	
-	it('Testing for contract funding', async () => {
-		
+	it('Testing for contract funding', async () => {		
 		// receive() payable external
 		await web3.eth.sendTransaction({	// truffle is already injected with web3
 			from: accounts[0],		// sender
@@ -71,8 +68,7 @@ contract('MultiSignature', (accounts) => {
 		assert(balance.toString() === (1e18).toString(), `Invalid balance: ${balance.toString()}. Expecting {(1e18).toString()}.`);
 	});
 	
-	it('Testing for failing via modifier approversOnly', async () => {
-		
+	it('Testing for failing via modifier approversOnly', async () => {		
 		// expecting these transactions to be reverted by modifier approversOnly()
 		await expectRevert(
 			// function addTransaction(uint amount, address payable to) external approversOnly() returns(uint)
@@ -132,8 +128,7 @@ contract('MultiSignature', (accounts) => {
 		);
 	});
 	
-	it('Testing for creating a TransferRequest', async () => {
-		
+	it('Testing for creating a TransferRequest', async () => {		
 		// function addTransaction(uint amount, address payable to) external approversOnly() returns(uint)
 		await multiSignature.addTransaction((1e18).toString(), accounts[5], {from: accounts[0]});
 		
@@ -147,8 +142,7 @@ contract('MultiSignature', (accounts) => {
 		assert(transaction.payed === false, `Invalid status: payed = ${transaction.payed.toString()}. Expecting false.`);
 	});
 	
-	it('Testing for approving a transaction', async () => {
-		
+	it('Testing for approving a transaction', async () => {		
 		// function addTransaction(uint amount, address payable to) external approversOnly() returns(uint)
 		await multiSignature.addTransaction((1e18).toString(), accounts[5], {from: accounts[0]});
 
@@ -161,8 +155,7 @@ contract('MultiSignature', (accounts) => {
 		assert(transaction.payed === false, `Invalid status: payed = ${transaction.payed.toString()}. Expecting false.`);
 	});
 	
-	it('Testing for failing approving a transaction', async () => {
-		
+	it('Testing for failing approving a transaction', async () => {		
 		// function addTransaction(uint amount, address payable to) external approversOnly() returns(uint)
 		await multiSignature.addTransaction((1e18).toString(), accounts[5], {from: accounts[0]});
 
@@ -182,8 +175,7 @@ contract('MultiSignature', (accounts) => {
 		assert(transaction.payed === false, `Invalid status: payed = ${transaction.payed.toString()}. Expecting false.`);
 	});
 	
-	it('Testing for unapproving a transaction', async () => {
-		
+	it('Testing for unapproving a transaction', async () => {		
 		// function addTransaction(uint amount, address payable to) external approversOnly() returns(uint)
 		await multiSignature.addTransaction((1e18).toString(), accounts[5], {from: accounts[0]});
 
@@ -199,8 +191,7 @@ contract('MultiSignature', (accounts) => {
 		assert(transaction.payed === false, `Invalid status: payed = ${transaction.payed.toString()}. Expecting false.`);
 	});
 	
-	it('Testing for failing unapproving a transaction', async () => {
-		
+	it('Testing for failing unapproving a transaction', async () => {		
 		// function addTransaction(uint amount, address payable to) external approversOnly() returns(uint)
 		await multiSignature.addTransaction((1e18).toString(), accounts[5], {from: accounts[0]});
 
@@ -217,13 +208,12 @@ contract('MultiSignature', (accounts) => {
 		assert(transaction.payed === false, `Invalid status: payed = ${transaction.payed.toString()}. Expecting false.`);
 	});
 	
-	it('Testing for executing a transaction', async () => {
-		
+	it('Testing for executing a transaction', async () => {		
 		// fund contract
 		await web3.eth.sendTransaction({	// truffle is already injected with web3
-			from: accounts[0],				// sender
-			to: multiSignature.address,		// recipient
-			value: 1e18						// amount (1 eth)
+			from: accounts[0],		// sender
+			to: multiSignature.address,	// recipient
+			value: 1e18			// amount (1 eth)
 		});
 		
 		// function addTransaction(uint amount, address payable to) external approversOnly() returns(uint)
@@ -254,8 +244,7 @@ contract('MultiSignature', (accounts) => {
 		assert(balanceDelta.toString() === transaction.amount.toString(), `Invalid balance for the recipient: ${balanceDelta.toString()}'. Expecting ${transaction.amount.toString()}`);
 	});
 	
-	it('Testing for failing executing a transaction for insufficient approvals', async () => {
-		
+	it('Testing for failing executing a transaction for insufficient approvals', async () => {		
 		// function addTransaction(uint amount, address payable to) external approversOnly() returns(uint)
 		await multiSignature.addTransaction((1e18).toString(), accounts[5], {from: accounts[0]});
 
@@ -275,8 +264,7 @@ contract('MultiSignature', (accounts) => {
 		assert(transaction.payed === false, `Invalid status: payed = ${transaction.payed.toString()}. Expecting false.`);
 	});
 	
-	it('Testing for failing executing a transaction for insufficient balance', async () => {
-		
+	it('Testing for failing executing a transaction for insufficient balance', async () => {		
 		// function addTransaction(uint amount, address payable to) external approversOnly() returns(uint)
 		await multiSignature.addTransaction((1e18).toString(), accounts[5], {from: accounts[0]});
 
@@ -307,6 +295,5 @@ contract('MultiSignature', (accounts) => {
 		assert(transaction.approvals === '2', `Invalid transaction approvals number: ${transaction.approvals}. Expecting 2.`);
 		assert(transaction.payed === false, `Invalid status: payed = ${transaction.payed.toString()}. Expecting false.`);
 		assert(balanceDelta.toString() === '0', `Invalid balance for the recipient: ${balanceDelta.toString()}'. Expecting 0`);
-	});
-	
+	});	
 });
