@@ -115,12 +115,10 @@ contract MultiSignature {
 // default
 
     // deposit into the multi-signature
-    receive() payable external {
-        
-    }
+    receive() payable external { }
     
     // fallback
-    fallback() external  {}
+    fallback() external { }
     
     
 // public
