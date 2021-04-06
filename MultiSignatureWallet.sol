@@ -115,9 +115,7 @@ contract MultiSignature {
 // default
 
     // deposit into the multi-signature
-    receive() payable external {
-        
-    }
+    receive() payable external {}
     
     // fallback
     fallback() external  {}
@@ -164,13 +162,13 @@ contract MultiSignature {
     // unapprove a transaction
     function unapproveTransaction(uint id) external approversOnly() notPayed(id) {
         
-        // check if transction is already approved by this address
+        // check if transction is not approved by this address
         require(approvals[msg.sender][id], 'Transaction is not approved');
         
-        // set approved flag
+        // remove approved flag
         approvals[msg.sender][id] = false;
         
-        // increment approvals count for this transaction
+        // decrement approvals count for this transaction
         requests[id].approvals--;
 
         // emit event
