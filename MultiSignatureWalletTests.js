@@ -18,7 +18,7 @@ contract('MultiSignature', (accounts) => {
 		multiSignature = await MultiSignatureWallet.new(
 			// constructor args
 			[accounts[0], accounts[1], accounts[2]],	// address[] memory
-			2											// uint
+			2						// uint
 		);		
 	});
 	
@@ -61,9 +61,9 @@ contract('MultiSignature', (accounts) => {
 		
 		// receive() payable external
 		await web3.eth.sendTransaction({	// truffle is already injected with web3
-			from: accounts[0],				// sender
-			to: multiSignature.address,		// recipient
-			value: 1e18						// amount: 1 eth
+			from: accounts[0],		// sender
+			to: multiSignature.address,	// recipient
+			value: 1e18			// amount: 1 eth
 		});
 		
 		// function getbalance() external view approversOnly() returns(uint)
@@ -75,37 +75,31 @@ contract('MultiSignature', (accounts) => {
 		
 		// expecting these transactions to be reverted by modifier approversOnly()
 		await expectRevert(
-		
 			// function addTransaction(uint amount, address payable to) external approversOnly() returns(uint)
 			multiSignature.addTransaction((1e18).toString(), accounts[5], {from: accounts[3]}),
 			'Not a multi-signature approver'
 		);
 		await expectRevert(
-		
 			// function getMinSignatures() external view approversOnly() returns(uint)
 			multiSignature.getMinSignatures({from: accounts[3]}),
 			'Not a multi-signature approver'
 		);
 		await expectRevert(
-
 			// function getMaxSignatures() external view approversOnly() returns(uint) 
 			multiSignature.getMaxSignatures({from: accounts[3]}),
 			'Not a multi-signature approver'
 		);
 		await expectRevert(
-
 			// function getAddresses() external view approversOnly() returns(address[] memory)  
 			multiSignature.getAddresses({from: accounts[3]}),
 			'Not a multi-signature approver'
 		);
 		await expectRevert(
-
 			// function getbalance() external view approversOnly() returns(uint) 
 			multiSignature.getbalance({from: accounts[3]}),
 			'Not a multi-signature approver'
 		);
 		await expectRevert(
-
 			// function getTransaction(uint id) external view approversOnly() returns(TransactionRequest memory) 
 			multiSignature.getTransaction(0, {from: accounts[3]}),
 			'Not a multi-signature approver'
@@ -117,25 +111,21 @@ contract('MultiSignature', (accounts) => {
 			'Not a multi-signature approver'
 		);
 		await expectRevert(
-
 			// function addTransaction(uint amount, address payable to) external approversOnly()
 			multiSignature.addTransaction(0, accounts[0], {from: accounts[3]}),
 			'Not a multi-signature approver'
 		);
 		await expectRevert(
-
 			// function approveTransaction(uint id) external approversOnly() notPayed(id) 
 			multiSignature.approveTransaction(0, {from: accounts[3]}),
 			'Not a multi-signature approver'
 		);
 		await expectRevert(
-
 			// function unapproveTransaction(uint id) external approversOnly() notPayed(id) 
 			multiSignature.unapproveTransaction(0, {from: accounts[3]}),
 			'Not a multi-signature approver'
 		);
 		await expectRevert(
-
 			// function executeTransaction(uint id) external approversOnly() notPayed(id) 
 			multiSignature.executeTransaction(0, {from: accounts[3]}),
 			'Not a multi-signature approver'
@@ -180,8 +170,7 @@ contract('MultiSignature', (accounts) => {
 		await multiSignature.approveTransaction(0, {from: accounts[0]});
 		
 		// expecting this transaction to be reverted 
-		await expectRevert(
-		
+		await expectRevert(		
 			// function approveTransaction(uint id) external approversOnly() notPayed(id)
 			multiSignature.approveTransaction(0, {from: accounts[0]}),
 			'Transaction already approved'
@@ -216,8 +205,7 @@ contract('MultiSignature', (accounts) => {
 		await multiSignature.addTransaction((1e18).toString(), accounts[5], {from: accounts[0]});
 
 		// expecting this transaction to be reverted 
-		await expectRevert(
-		
+		await expectRevert(		
 			// function unapproveTransaction(uint id) external approversOnly() notPayed(id)
 			multiSignature.unapproveTransaction(0, {from: accounts[0]}),
 			'Transaction is not approved'
@@ -275,8 +263,7 @@ contract('MultiSignature', (accounts) => {
 		await multiSignature.approveTransaction(0, {from: accounts[0]});
 		
 		// expecting this transaction to be reverted
-		await expectRevert(
-		
+		await expectRevert(		
 			// function executeTransaction(uint id) external approversOnly() notPayed(id)
 			multiSignature.executeTransaction(0, {from: accounts[0]}),
 			'Transaction is not approved'
@@ -303,8 +290,7 @@ contract('MultiSignature', (accounts) => {
 		const startingBalance = await web3.eth.getBalance(accounts[5]);
 		
 		// expecting this transaction to be reverted
-		await expectRevert(
-		
+		await expectRevert(		
 			// function executeTransaction(uint id) external approversOnly() notPayed(id)
 			multiSignature.executeTransaction(0, {from: accounts[0]}),
 			'revert'
