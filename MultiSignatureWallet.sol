@@ -108,6 +108,9 @@ contract MultiSignature {
         return requests[id];
     }
     
+    function getTransactions() external view approversOnly() returns(TransactionRequest[] memory) {
+        return requests;
+    }
     
 // default
 
@@ -122,8 +125,8 @@ contract MultiSignature {
     
 // public
 
-    // add and sign a new transaction to be approved
-    function addTransaction(uint amount, address payable to) external approversOnly() returns(uint) {
+    // add a new transaction to be approved
+    function addTransaction(uint amount, address payable to) external approversOnly() {
         
         // create a new transaction request
          requests.push(TransactionRequest({
@@ -138,8 +141,8 @@ contract MultiSignature {
         // emit event
         emit TransactionAdd(msg.sender, to, amount, txCount);
         
-        // return tx internal id and increment it
-        return txCount++;
+        // increment tx id
+        ++txCount;
     }
     
     // approve a transaction
@@ -155,7 +158,7 @@ contract MultiSignature {
         requests[id].approvals++;
         
         // emit event
-        emit Approved(msg.sender, id);
+        //emit Approved(msg.sender, id);
     }
     
     // unapprove a transaction
