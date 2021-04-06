@@ -6,8 +6,7 @@ const {expectRevert} = require('@openzeppelin/test-helpers');
 
 
 // testing contract MultiSignature
-contract('MultiSignature', (accounts) => {
-	
+contract('MultiSignature', (accounts) => {	
 	// instance a variable to deploy the contract
 	let multiSignature;
 	
