@@ -167,10 +167,10 @@ contract MultiSignature {
         // check if transction is already approved by this address
         require(approvals[msg.sender][id], 'Transaction is not approved');
         
-        // set approved flag
+        // remove approved flag
         approvals[msg.sender][id] = false;
         
-        // increment approvals count for this transaction
+        // decrement approvals count for this transaction
         requests[id].approvals--;
 
         // emit event
