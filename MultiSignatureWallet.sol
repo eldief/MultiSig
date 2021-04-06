@@ -195,6 +195,7 @@ contract MultiSignature {
     // execute transaction
     function _executeTransaction(uint amount, address payable to) private {
         
+        // transfer
         to.transfer(amount);  
         
         // emit event
