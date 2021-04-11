@@ -156,7 +156,7 @@ contract MultiSignature {
         requests[id].approvals++;
         
         // emit event
-        //emit Approved(msg.sender, id);
+        emit Approved(msg.sender, id);
     }
     
     // unapprove a transaction
