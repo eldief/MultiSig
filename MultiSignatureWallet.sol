@@ -46,6 +46,7 @@ contract MultiSignature {
         for (uint i = 0; i < approvers.length; ++i) {
             if (approvers[i] == msg.sender) {
                 isApprover = true;
+                break;
             }
         }
         require (isApprover, 'Not a multi-signature approver');
